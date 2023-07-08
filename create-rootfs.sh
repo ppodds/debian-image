@@ -2,20 +2,19 @@
 
 SUITE=$1
 ARCH=$2
-VERSION=$3
 
 usage() {
-    echo 'Usage: ./create-rootfs.sh <suite> <arch> <version>'
-    echo 'Example: ./create-rootfs.sh etch amd64 20100619T041712Z'
-    echo 'You can find available version at https://snapshot.debian.org/archive/debian/'
+    echo 'Usage: ./create-rootfs.sh <suite> <arch>'
+    echo 'Example: ./create-rootfs.sh etch amd64'
+    echo 'You can find available version at https://archive.kernel.org/debian-archive/debian/'
     exit 1
 }
 
-if [ $# -ne 3 ]; then
+if [ $# -ne 2 ]; then
     usage
 fi
 
-DIR="$SUITE/$VERSION"
+DIR="$SUITE"
 ROOTFS_DIR="$DIR/rootfs"
 
 # Clean folder if already existed
@@ -28,7 +27,7 @@ fi
 mkdir -p $ROOTFS_DIR
 
 # Create root fs
-sudo debootstrap --arch=$ARCH $SUITE $ROOTFS_DIR "http://snapshot.debian.org/archive/debian/${VERSION}/" 
+sudo debootstrap --arch=$ARCH $SUITE $ROOTFS_DIR "http://archive.kernel.org/debian-archive/debian/" 
 if [ $? -ne 0 ]; then
     echo 'debootstrap failed!'
     exit 1
